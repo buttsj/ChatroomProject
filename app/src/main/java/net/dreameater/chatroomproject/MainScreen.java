@@ -14,13 +14,11 @@ public class MainScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
+        // store the top bar here
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        try {
-            getSupportActionBar().hide();
-        } catch (Exception e) {
-
-        }
+        assert getSupportActionBar() != null;
+        getSupportActionBar().hide();
 
 
         Button btn = (Button)findViewById(R.id.button);
