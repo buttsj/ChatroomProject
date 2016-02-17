@@ -13,8 +13,42 @@
     tools:context="net.dreameater.chatroomproject.MainScreen"
     tools:showIn="@layout/activity_main_screen">
 
+    <View
+        android:id="@+id/myCircleView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/circle"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="141dp"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello Team!"/>
+        android:text="Room"
+        android:textSize="70dp"
+        android:id="@+id/textView"
+        android:layout_alignTop="@+id/myCircleView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Connect"
+        android:id="@+id/button"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="at Ohio State"
+        android:textSize="15dp"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/myCircleView"
+        android:layout_centerHorizontal="true"/>
+
+
+
 </RelativeLayout>
