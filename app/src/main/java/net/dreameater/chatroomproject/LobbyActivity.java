@@ -18,8 +18,7 @@ public class LobbyActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
+        getSupportActionBar().setTitle("Lobby");
 
     }
 
@@ -34,6 +33,7 @@ public class LobbyActivity extends AppCompatActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_lobby, menu);
         return true;
     }
 
