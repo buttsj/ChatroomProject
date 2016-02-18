@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
+// THIS IS THE SPLASH SCREEN
+
 public class MainScreen extends AppCompatActivity {
 
     @Override

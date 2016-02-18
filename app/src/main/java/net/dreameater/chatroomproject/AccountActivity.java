@@ -9,6 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+// THIS IS YOUR ACCOUNT INFORMATION PAGE
+
 public class AccountActivity extends AppCompatActivity {
 
     @Override
