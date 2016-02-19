@@ -5,10 +5,13 @@ public class Room {
     private String roomName;
     private boolean withinRange;
 
-    public Room(String name)
-    {
+    public Room() {
+        super();
+    }
+
+    public Room(String name) {
+        super();
         this.roomName = name;
-        this.withinRange = false;
     }
 
     @Override
