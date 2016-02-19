@@ -1,4 +1,4 @@
-package net.dreameater.chatroomproject;
+package net.dreameater.chatroomproject.classes;
 
 public class Room {
 
@@ -12,6 +12,7 @@ public class Room {
     public Room(String name) {
         super();
         this.roomName = name;
+        this.withinRange = false;
     }
 
     @Override
