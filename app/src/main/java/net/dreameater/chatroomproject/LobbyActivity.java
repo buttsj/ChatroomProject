@@ -33,25 +33,25 @@ public class LobbyActivity extends AppCompatActivity {
 
         // store the listview and rooms here
         lv = (ListView) findViewById(R.id.listView);
-        List<String> roomList = new ArrayList<>();
-        roomList.add("Dreese Labs");
-        roomList.add("Caldwell");
-        roomList.add("Bolz");
-        roomList.add("Baker Systems");
-        roomList.add("Hitchcock");
-        roomList.add("Science and Eng Library");
-        roomList.add("RPAC");
-        roomList.add("University Hall");
-        roomList.add("Thompson Library");
-        roomList.add("Knowlton School of Architecture");
-        roomList.add("Fisher School of Business");
-        roomList.add("Cockins Hall");
-        roomList.add("Scott Laboratory");
-        roomList.add("Evans Laboratory");
-        roomList.add("Celeste Laboratory");
+        List<Room> roomList = new ArrayList<>();
+        roomList.add(new Room("Dreese Labs"));
+        roomList.add(new Room("Caldwell"));
+        roomList.add(new Room("Bolz"));
+        roomList.add(new Room("Baker Systems"));
+        roomList.add(new Room("Hitchcock"));
+        roomList.add(new Room("Science and Eng Library"));
+        roomList.add(new Room("RPAC"));
+        roomList.add(new Room("University Hall"));
+        roomList.add(new Room("Thompson Library"));
+        roomList.add(new Room("Knowlton School of Architecture"));
+        roomList.add(new Room("Fisher School of Business"));
+        roomList.add(new Room("Cockins Hall"));
+        roomList.add(new Room("Scott Laboratory"));
+        roomList.add(new Room("Evans Laboratory"));
+        roomList.add(new Room("Celeste Laboratory"));
 
         // create array adapter to populate the listview
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+        ArrayAdapter<Room> arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
                 roomList );
