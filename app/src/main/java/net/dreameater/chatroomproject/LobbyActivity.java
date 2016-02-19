@@ -6,8 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +61,13 @@ public class LobbyActivity extends AppCompatActivity {
                 roomList );
 
         lv.setAdapter(arrayAdapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                startActivity(new Intent(LobbyActivity.this, ChatroomActivity.class));
+            }
+        });
     }
 
     @Override
@@ -76,6 +87,5 @@ public class LobbyActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_lobby, menu);
         return true;
     }
-
 
 }

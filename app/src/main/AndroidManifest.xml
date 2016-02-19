@@ -28,6 +28,11 @@
             android:label="@string/title_activity_account"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name=".ChatroomActivity"
+            android:label="@string/title_activity_chatroom"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
