@@ -1,12 +1,12 @@
 package net.dreameater.chatroomproject.classes;
 
-
-import java.util.ArrayList;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Chat implements Serializable {
 
-    private ArrayList<Message> history;
+    private List<Message> history;
 
     public Chat() {
         super();
@@ -17,7 +17,7 @@ public class Chat implements Serializable {
         history.add(msg);
     }
 
-    public ArrayList<Message> retreiveHistory() {
+    public List<Message> retreiveHistory() {
         return history;
     }
 

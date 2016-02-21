@@ -18,7 +18,8 @@ public class Message {
         this.timeStamp = timeStamp;
     }
 
-    public String getMessage() {
+    @Override
+    public String toString() {
         return message;
     }
 

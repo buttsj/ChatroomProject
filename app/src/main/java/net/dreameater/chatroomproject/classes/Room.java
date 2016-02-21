@@ -35,4 +35,8 @@ public class Room implements Serializable {
     public void sendMessage(Message msg) {
         chatTool.addToHistory(msg);
     }
+
+    public Chat currentChat() {
+        return chatTool;
+    }
 }
