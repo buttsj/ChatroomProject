@@ -1,6 +1,8 @@
 package net.dreameater.chatroomproject.classes;
 
-public class Room {
+import java.io.Serializable;
+
+public class Room implements Serializable {
 
     private String roomName;
     private boolean withinRange;
@@ -29,4 +31,8 @@ public class Room {
     }
 
     public boolean isFavorited() { return favorite; }
+
+    public void sendMessage(Message msg) {
+        chatTool.addToHistory(msg);
+    }
 }

@@ -14,16 +14,18 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import net.dreameater.chatroomproject.classes.Message;
+import net.dreameater.chatroomproject.classes.Room;
 
 import java.util.Calendar;
 
 public class ChatroomActivity extends AppCompatActivity {
 
+    private Room selectedRoom;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatroom);
-
         // store the top bar here
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -31,9 +33,20 @@ public class ChatroomActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("");
 
+
+        Intent i = getIntent();
+        if (i.hasExtra("Room"))
+        {
+            selectedRoom = (Room)i.getSerializableExtra("Room");
+            getSupportActionBar().setTitle(selectedRoom.toString());
+        }
+
+
+
+
         Button btn = (Button)findViewById(R.id.button);
 
-        EditText txt = (EditText) findViewById(R.id.editText);
+        /*EditText txt = (EditText) findViewById(R.id.editText);
         txt.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
@@ -43,14 +56,16 @@ public class ChatroomActivity extends AppCompatActivity {
                 }
                 return false;
             }
-        });
-        btn.setOnClickListener(new View.OnClickListener() {
+        });*/
+
+
+        /*btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // send message
                 Message msg = new Message("message", Calendar.getInstance().getTimeInMillis());
             }
-        });
+        });*/
     }
 
     @Override
