@@ -53,10 +53,11 @@ public class ChatroomActivity extends AppCompatActivity {
         final EditText txt = (EditText) findViewById(R.id.chat_box);
         txt.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER) && !(txt.getText().toString().equals(""))) {
                     // send message
                     Message msg = new Message(txt.getText().toString(), Calendar.getInstance().getTimeInMillis());
                     selectedRoom.sendMessage(msg);
+                    txt.getText().clear();
                     updateChatLog();
                     return true;
                 }
