@@ -13,4 +13,11 @@
     tools:context="net.dreameater.chatroomproject.AccountActivity"
     tools:showIn="@layout/activity_account">
 
+    <ImageView
+        android:id="@+id/galaxynote3View"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:src="@drawable/android_phone" />
+
 </RelativeLayout>
