@@ -1,9 +1,15 @@
 package net.dreameater.chatroomproject;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,7 +17,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import net.dreameater.chatroomproject.classes.Room;
 
@@ -74,6 +79,14 @@ public class LobbyActivity extends AppCompatActivity {
             }
         });
 
+        if (isLocationEnabled(this)){
+                Log.d("test", "Location services are enabled");
+        }
+        else {
+            Snackbar snack = Snackbar.make(findViewById(R.id.listView), "Enable Location Service", Snackbar.LENGTH_INDEFINITE);
+            snack.show();
+        }
+
     }
 
     @Override
@@ -92,6 +105,26 @@ public class LobbyActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_lobby, menu);
         return true;
+    }
+
+    public static boolean isLocationEnabled(Context context) {
+        int locationMode = 0;
+        String locationProviders;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+            try {
+                locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
+
+            } catch (Settings.SettingNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            return locationMode != Settings.Secure.LOCATION_MODE_OFF;
+
+        }
+        else{
+            return false;
+        }
     }
 
 }

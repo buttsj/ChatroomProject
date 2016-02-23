@@ -26,9 +26,9 @@ import java.util.List;
 
 public class ChatroomActivity extends AppCompatActivity {
 
-    private Room selectedRoom;
-    private ListView lv;
-    private List<Message> storedMessages;
+    private Room selectedRoom; // Current room
+    private ListView lv; // The listview holding the List below
+    private List<Message> storedMessages; // List of messages ("history")
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
