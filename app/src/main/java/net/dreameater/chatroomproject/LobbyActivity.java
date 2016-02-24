@@ -44,10 +44,7 @@ public class LobbyActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Lobby");
         //
 
-
-
-        // store the listview and rooms here
-        lv = (ListView) findViewById(R.id.listView);
+        // create the list of Rooms
         ArrayList<Room> roomList = new ArrayList<>();
         roomList.add(new Room("Dreese Labs", "red"));
         roomList.add(new Room("Caldwell", "red"));
@@ -65,38 +62,30 @@ public class LobbyActivity extends AppCompatActivity {
         roomList.add(new Room("Evans Laboratory", "red"));
         roomList.add(new Room("Celeste Laboratory", "red"));
 
-        // create array adapter to populate the listview
-        /*final ArrayAdapter<Room> arrayAdapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_1,
-                roomList );*/
-
+        // create custom adapter (to put Green/Red dot and text on same line
         ad = new CustomAdapter(this, roomList);
 
-        // create array adapter to populate the listview
-        /*final ArrayAdapter<Room> arrayAdapter = new ArrayAdapter<>(
-                this,
-                R.layout.customlist,
-                R.id.RoomItem,
-                roomList );*/
-
+        // apply custom adapter to the ListView
+        lv = (ListView) findViewById(R.id.listView);
         lv.setAdapter(ad);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
                 Room selectedRoom = (Room) parent.getItemAtPosition(position);
-                Intent i = new Intent(LobbyActivity.this, ChatroomActivity.class);
-                i.putExtra("Room", selectedRoom);
-                startActivity(i);
+                if (selectedRoom.isWithinRange()){
+                    Intent i = new Intent(LobbyActivity.this, ChatroomActivity.class);
+                    i.putExtra("Room", selectedRoom);
+                    startActivity(i);
+                }
             }
         });
 
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                Log.d("test", "long click");
-                ad.getItem(arg2).setImg("green");
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Room selectedRoom = (Room)parent.getItemAtPosition(position);
+                selectedRoom.setImg("green");
                 lv.setAdapter(ad);
                 return true;
             }
@@ -109,6 +98,8 @@ public class LobbyActivity extends AppCompatActivity {
             Snackbar snack = Snackbar.make(findViewById(R.id.listView), "Enable Location Service", Snackbar.LENGTH_INDEFINITE);
             snack.show();
         }
+
+
 
     }
 
