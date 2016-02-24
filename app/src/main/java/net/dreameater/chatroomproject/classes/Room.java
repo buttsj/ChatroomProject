@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Room implements Serializable {
 
     private String roomName;
+    private String imgName;
     private boolean withinRange;
     private boolean favorite;
     private Chat chatTool;
@@ -13,9 +14,10 @@ public class Room implements Serializable {
         super();
     }
 
-    public Room(String name) {
+    public Room(String name, String imgName) {
         super();
         this.roomName = name;
+        this.imgName = imgName;
         this.withinRange = false;
         this.favorite = false;
         this.chatTool = new Chat();
@@ -24,6 +26,12 @@ public class Room implements Serializable {
     @Override
     public String toString() {
         return this.roomName;
+    }
+
+    public String getImg() { return this.imgName; }
+
+    public void setImg(String img) {
+        imgName = img;
     }
 
     public boolean isWithinRange() {
