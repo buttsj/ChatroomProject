@@ -9,10 +9,10 @@ public class Room implements Serializable {
     private boolean favorite;
     private Chat chatTool;
 
-    public Room(String name, String imgName) {
+    public Room(String name) {
         super();
         this.roomName = name;
-        this.imgName = imgName;
+        this.imgName = "red";
         this.favorite = false;
         this.chatTool = new Chat();
     }

@@ -46,21 +46,21 @@ public class LobbyActivity extends AppCompatActivity {
 
         // create the list of Rooms
         ArrayList<Room> roomList = new ArrayList<>();
-        roomList.add(new Room("Dreese Labs", "red"));
-        roomList.add(new Room("Caldwell", "red"));
-        roomList.add(new Room("Bolz", "red"));
-        roomList.add(new Room("Baker Systems", "red"));
-        roomList.add(new Room("Hitchcock", "red"));
-        roomList.add(new Room("Science and Eng Library", "red"));
-        roomList.add(new Room("RPAC", "red"));
-        roomList.add(new Room("University Hall", "red"));
-        roomList.add(new Room("Thompson Library", "red"));
-        roomList.add(new Room("Knowlton School of Architecture", "red"));
-        roomList.add(new Room("Fisher School of Business", "red"));
-        roomList.add(new Room("Cockins Hall", "red"));
-        roomList.add(new Room("Scott Laboratory", "red"));
-        roomList.add(new Room("Evans Laboratory", "red"));
-        roomList.add(new Room("Celeste Laboratory", "red"));
+        roomList.add(new Room("Dreese Labs"));
+        roomList.add(new Room("Caldwell"));
+        roomList.add(new Room("Bolz"));
+        roomList.add(new Room("Baker Systems"));
+        roomList.add(new Room("Hitchcock"));
+        roomList.add(new Room("Science and Eng Library"));
+        roomList.add(new Room("RPAC"));
+        roomList.add(new Room("University Hall"));
+        roomList.add(new Room("Thompson Library"));
+        roomList.add(new Room("Knowlton School of Architecture"));
+        roomList.add(new Room("Fisher School of Business"));
+        roomList.add(new Room("Cockins Hall"));
+        roomList.add(new Room("Scott Laboratory"));
+        roomList.add(new Room("Evans Laboratory"));
+        roomList.add(new Room("Celeste Laboratory"));
 
         // create custom adapter (to put Green/Red dot and text on same line
         ad = new CustomAdapter(this, roomList);
