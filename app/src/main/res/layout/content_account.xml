@@ -20,4 +20,45 @@
         android:visibility="invisible"
         android:src="@drawable/android_phone" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="About You:"
+        android:id="@+id/textView3"
+        android:layout_below="@+id/galaxynote3View"
+        android:layout_centerHorizontal="true"
+        android:textSize="35dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Time Online:"
+        android:id="@+id/textView4"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Points Earned:"
+        android:id="@+id/textView5"
+        android:layout_below="@+id/textView4"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="40dp"/>
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear data?"
+        android:id="@+id/switch1"
+        android:checked="false"
+        android:layout_marginTop="62dp"
+        android:layout_below="@+id/textView5"
+        android:layout_centerHorizontal="true"/>
+
 </RelativeLayout>
