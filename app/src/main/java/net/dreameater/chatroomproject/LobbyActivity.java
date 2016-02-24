@@ -13,15 +13,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import net.dreameater.chatroomproject.classes.CustomAdapter;
 import net.dreameater.chatroomproject.classes.Room;
 
 import java.util.ArrayList;
-import java.util.List;
 
 // THIS IS THE LOBBY (CONTAINS THE "ROOMS")
 
@@ -111,6 +108,9 @@ public class LobbyActivity extends AppCompatActivity {
                 return true;
             case R.id.action_settings:
                 startActivity(new Intent(LobbyActivity.this, AccountActivity.class));
+                return true;
+            case R.id.action_refresh:
+                // refresh happens here (check for Rooms)
                 return true;
         }
         return super.onOptionsItemSelected(item);
