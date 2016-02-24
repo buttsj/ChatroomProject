@@ -49,21 +49,21 @@ public class LobbyActivity extends AppCompatActivity {
         // store the listview and rooms here
         lv = (ListView) findViewById(R.id.listView);
         ArrayList<Room> roomList = new ArrayList<>();
-        roomList.add(new Room("Dreese Labs", "redcircle"));
-        roomList.add(new Room("Caldwell", "redcircle"));
-        roomList.add(new Room("Bolz", "redcircle"));
-        roomList.add(new Room("Baker Systems", "redcircle"));
-        roomList.add(new Room("Hitchcock", "redcircle"));
-        roomList.add(new Room("Science and Eng Library", "redcircle"));
-        roomList.add(new Room("RPAC", "redcircle"));
-        roomList.add(new Room("University Hall", "redcircle"));
-        roomList.add(new Room("Thompson Library", "redcircle"));
-        roomList.add(new Room("Knowlton School of Architecture", "redcircle"));
-        roomList.add(new Room("Fisher School of Business", "redcircle"));
-        roomList.add(new Room("Cockins Hall", "redcircle"));
-        roomList.add(new Room("Scott Laboratory", "redcircle"));
-        roomList.add(new Room("Evans Laboratory", "redcircle"));
-        roomList.add(new Room("Celeste Laboratory", "redcircle"));
+        roomList.add(new Room("Dreese Labs", "red"));
+        roomList.add(new Room("Caldwell", "red"));
+        roomList.add(new Room("Bolz", "red"));
+        roomList.add(new Room("Baker Systems", "red"));
+        roomList.add(new Room("Hitchcock", "red"));
+        roomList.add(new Room("Science and Eng Library", "red"));
+        roomList.add(new Room("RPAC", "red"));
+        roomList.add(new Room("University Hall", "red"));
+        roomList.add(new Room("Thompson Library", "red"));
+        roomList.add(new Room("Knowlton School of Architecture", "red"));
+        roomList.add(new Room("Fisher School of Business", "red"));
+        roomList.add(new Room("Cockins Hall", "red"));
+        roomList.add(new Room("Scott Laboratory", "red"));
+        roomList.add(new Room("Evans Laboratory", "red"));
+        roomList.add(new Room("Celeste Laboratory", "red"));
 
         // create array adapter to populate the listview
         /*final ArrayAdapter<Room> arrayAdapter = new ArrayAdapter<>(
@@ -96,7 +96,7 @@ public class LobbyActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 Log.d("test", "long click");
-                ad.getItem(arg2).setImg("greencircle");
+                ad.getItem(arg2).setImg("green");
                 lv.setAdapter(ad);
                 return true;
             }

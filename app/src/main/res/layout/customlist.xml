@@ -10,7 +10,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="12dp"
-        android:src="@drawable/redcircle" />
+        android:src="@drawable/red" />
     <TextView
         android:id="@+id/RoomItem"
         android:layout_width="wrap_content"
