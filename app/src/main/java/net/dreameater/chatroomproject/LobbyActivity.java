@@ -1,19 +1,22 @@
 package net.dreameater.chatroomproject;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import net.dreameater.chatroomproject.classes.CustomAdapter;
 import net.dreameater.chatroomproject.classes.Room;
@@ -23,10 +26,11 @@ import java.util.ArrayList;
 // THIS IS THE LOBBY (CONTAINS THE "ROOMS")
 
 
-public class LobbyActivity extends AppCompatActivity {
+public class LobbyActivity extends AppCompatActivity implements LocationListener {
 
     private ListView lv;
     private CustomAdapter ad;
+    private LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +74,7 @@ public class LobbyActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
                 Room selectedRoom = (Room) parent.getItemAtPosition(position);
-                if (selectedRoom.isWithinRange()){
+                if (selectedRoom.isWithinRange()) {
                     Intent i = new Intent(LobbyActivity.this, ChatroomActivity.class);
                     i.putExtra("Room", selectedRoom);
                     startActivity(i);
@@ -88,16 +92,25 @@ public class LobbyActivity extends AppCompatActivity {
             }
         });
 
-        if (isLocationEnabled(this)){
-                Log.d("test", "Location services are enabled");
+        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        Criteria cri = new Criteria();
+        //cri.setAccuracy(Criteria.ACCURACY_HIGH);
+        String provider = locationManager.getBestProvider(cri, true);
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (provider != null && !provider.equals("")){
+            Toast.makeText(getApplicationContext(), provider, Toast.LENGTH_SHORT).show();
+            Location location = locationManager.getLastKnownLocation(provider);
+            locationManager.requestLocationUpdates(provider, 2000, 1, this);
+            if (location != null) {
+                onLocationChanged(location);
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "Location not found", Toast.LENGTH_LONG).show();
+            }
         }
         else {
-            Snackbar snack = Snackbar.make(findViewById(R.id.listView), "Enable Location Service", Snackbar.LENGTH_INDEFINITE);
-            snack.show();
+            Toast.makeText(getApplicationContext(), "Provider is null", Toast.LENGTH_LONG).show();
         }
-
-
-
     }
 
     @Override
@@ -121,24 +134,24 @@ public class LobbyActivity extends AppCompatActivity {
         return true;
     }
 
-    public static boolean isLocationEnabled(Context context) {
-        int locationMode = 0;
-        String locationProviders;
+    @Override
+    public void onLocationChanged(Location location)
+    {
+    }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-            try {
-                locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle)
+    {
+    }
 
-            } catch (Settings.SettingNotFoundException e) {
-                e.printStackTrace();
-            }
+    @Override
+    public void onProviderEnabled(String s)
+    {
+    }
 
-            return locationMode != Settings.Secure.LOCATION_MODE_OFF;
-
-        }
-        else{
-            return false;
-        }
+    @Override
+    public void onProviderDisabled(String s)
+    {
     }
 
 }
