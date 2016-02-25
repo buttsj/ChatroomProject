@@ -3,7 +3,6 @@ package net.dreameater.chatroomproject;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -26,10 +25,11 @@ import java.util.ArrayList;
 // THIS IS THE LOBBY (CONTAINS THE "ROOMS")
 
 
-public class LobbyActivity extends AppCompatActivity implements LocationListener {
+public class LobbyActivity extends AppCompatActivity {
 
     private ListView lv;
     private CustomAdapter ad;
+    private Location lastLocation;
     private LocationManager locationManager;
 
     @Override
@@ -85,32 +85,17 @@ public class LobbyActivity extends AppCompatActivity implements LocationListener
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Room selectedRoom = (Room)parent.getItemAtPosition(position);
+                Room selectedRoom = (Room) parent.getItemAtPosition(position);
                 selectedRoom.setImg("green");
                 lv.setAdapter(ad);
                 return true;
             }
         });
 
-        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        Criteria cri = new Criteria();
-        //cri.setAccuracy(Criteria.ACCURACY_HIGH);
-        String provider = locationManager.getBestProvider(cri, true);
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        if (provider != null && !provider.equals("")){
-            Toast.makeText(getApplicationContext(), provider, Toast.LENGTH_SHORT).show();
-            Location location = locationManager.getLastKnownLocation(provider);
-            locationManager.requestLocationUpdates(provider, 2000, 1, this);
-            if (location != null) {
-                onLocationChanged(location);
-            }
-            else {
-                Toast.makeText(getApplicationContext(), "Location not found", Toast.LENGTH_LONG).show();
-            }
-        }
-        else {
-            Toast.makeText(getApplicationContext(), "Provider is null", Toast.LENGTH_LONG).show();
-        }
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 5, locationListener);
+
     }
 
     @Override
@@ -134,24 +119,29 @@ public class LobbyActivity extends AppCompatActivity implements LocationListener
         return true;
     }
 
-    @Override
-    public void onLocationChanged(Location location)
-    {
-    }
 
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle)
-    {
-    }
+    private final LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            //code
+            Toast.makeText(getApplicationContext(), "location found", Toast.LENGTH_SHORT).show();
+            lastLocation = location;
 
-    @Override
-    public void onProviderEnabled(String s)
-    {
-    }
+        }
 
-    @Override
-    public void onProviderDisabled(String s)
-    {
-    }
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            //turns off gps services
+        }
+    };
+
 
 }
