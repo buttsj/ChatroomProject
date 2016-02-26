@@ -1,7 +1,6 @@
 package net.dreameater.chatroomproject;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
@@ -10,12 +9,12 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import net.dreameater.chatroomproject.classes.CustomAdapter;
 import net.dreameater.chatroomproject.classes.Room;
@@ -98,6 +97,7 @@ public class LobbyActivity extends AppCompatActivity {
         });
 
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        Log.d("TAG", String.valueOf(permissionCheck)); // need to figure out why it doesn't correctly see if GPS is enabled
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 5, locationListener);
 
