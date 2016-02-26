@@ -6,6 +6,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -127,7 +128,12 @@ public class LobbyActivity extends AppCompatActivity {
 
     private final LocationListener locationListener = new LocationListener() {
         @Override
-        public void onLocationChanged(Location location) { lastLocation = location;}
+        public void onLocationChanged(Location location) {
+            lastLocation = location;
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+            Snackbar.make(findViewById(R.id.listView), String.valueOf(latitude + " " + longitude), Snackbar.LENGTH_INDEFINITE).show();
+        }
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -152,9 +158,13 @@ public class LobbyActivity extends AppCompatActivity {
                 if (roomList.get(i).gpsCheck(latitude, longitude))
                 {
                     roomList.get(i).setImg("green");
-                    lv.setAdapter(ad);
+                }
+                else
+                {
+                    roomList.get(i).setImg("red");
                 }
             }
+            lv.setAdapter(ad);
         }
     }
 

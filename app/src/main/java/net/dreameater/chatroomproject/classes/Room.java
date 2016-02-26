@@ -47,7 +47,7 @@ public class Room implements Serializable {
     }
 
     public boolean gpsCheck(double latitude, double longitude){
-        return (distance(latitude, longitude,   this.latitude, this.longitude) < 0.01);
+        return (distance(latitude, longitude,   this.latitude, this.longitude) < 0.1);
     }
 
     /** calculates the distance between two locations in MILES */
