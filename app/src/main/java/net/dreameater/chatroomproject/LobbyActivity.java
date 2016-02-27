@@ -100,8 +100,24 @@ public class LobbyActivity extends AppCompatActivity {
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         Log.d("TAG", String.valueOf(permissionCheck)); // need to figure out why it doesn't correctly see if GPS is enabled
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 5, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1, locationListener);
 
+    }
+
+    @Override
+    protected void onResume() {
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1, locationListener);
+        super.onResume();
+        Log.d("TAG", "onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        locationManager.removeUpdates(locationListener);
+        super.onPause();
+        Log.d("TAG", "onPause");
     }
 
     @Override
