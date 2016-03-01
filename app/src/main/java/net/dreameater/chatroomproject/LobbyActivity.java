@@ -98,16 +98,28 @@ public class LobbyActivity extends AppCompatActivity {
         });
 
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        Log.d("TAG", String.valueOf(permissionCheck)); // need to figure out why it doesn't correctly see if GPS is enabled
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1, locationListener);
-
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+        {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1, locationListener);
+        }
+        else
+        {
+            Snackbar.make(findViewById(R.id.listView), "Please enable your GPS.", Snackbar.LENGTH_INDEFINITE).show();
+        }
     }
 
     @Override
     protected void onResume() {
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1, locationListener);
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+        {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1, locationListener);
+        }
+        else
+        {
+            Snackbar.make(findViewById(R.id.listView), "Please enable your GPS.", Snackbar.LENGTH_INDEFINITE).show();
+        }
         super.onResume();
         Log.d("TAG", "onResume");
     }
@@ -115,6 +127,7 @@ public class LobbyActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        Log.d("TAG", String.valueOf(permissionCheck));
         locationManager.removeUpdates(locationListener);
         super.onPause();
         Log.d("TAG", "onPause");
@@ -148,7 +161,7 @@ public class LobbyActivity extends AppCompatActivity {
             lastLocation = location;
             longitude = location.getLongitude();
             latitude = location.getLatitude();
-            Snackbar.make(findViewById(R.id.listView), String.valueOf(latitude + " " + longitude), Snackbar.LENGTH_INDEFINITE).show();
+            Snackbar.make(findViewById(R.id.listView), String.valueOf(latitude + " " + longitude), Snackbar.LENGTH_SHORT).show();
         }
 
         @Override
