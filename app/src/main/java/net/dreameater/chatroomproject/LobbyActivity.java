@@ -127,7 +127,6 @@ public class LobbyActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        Log.d("TAG", String.valueOf(permissionCheck));
         locationManager.removeUpdates(locationListener);
         super.onPause();
         Log.d("TAG", "onPause");
