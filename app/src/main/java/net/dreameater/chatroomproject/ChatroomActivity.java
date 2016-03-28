@@ -60,6 +60,10 @@ public class ChatroomActivity extends AppCompatActivity {
         }
 
 
+        //TODO Check if there is a group owner for this room
+        //If no group owner then make this user group owner
+        //Else join group owners wifi direct group
+
         final EditText txt = (EditText) findViewById(R.id.chat_box);
         txt.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
