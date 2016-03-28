@@ -51,11 +51,6 @@ public class ChatroomActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(selectedRoom.toString());
         }
 
-
-        //TODO Check if there is a group owner for this room
-        //If no group owner then make this user group owner
-        //Else join group owners wifi direct group
-
         final EditText txt = (EditText) findViewById(R.id.chat_box);
         txt.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -105,34 +100,7 @@ public class ChatroomActivity extends AppCompatActivity {
         {
             storedMessages.add(m);
         }
-        /*Log.d("test", "This is a test");
-        if(true){
-            //Inits the request queue
-            RequestQueue queue = Volley.newRequestQueue(this);
-            String url = "http://www.patrickveith.com";
 
-            //Request a string
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
-                //@Override
-                public void onResponse(String response){
-                    //Display the first 500 chars of response string
-
-                    long timeStamp = 100;
-                    Log.d("RESPONSE", response);
-                    Message onlineMessage = new Message(response, timeStamp);
-                    storedMessages.add(onlineMessage);
-                }
-            }, new Response.ErrorListener(){
-                //@Override
-                public void onErrorResponse(VolleyError error){
-                    //error message
-                    long timeStamp = 100;
-                    Message onlineErrorMessage = new Message(error.toString(), timeStamp);
-                    storedMessages.add(onlineErrorMessage);
-                }
-            });
-            queue.add(stringRequest);
-        }*/
         final ArrayAdapter<Message> arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
