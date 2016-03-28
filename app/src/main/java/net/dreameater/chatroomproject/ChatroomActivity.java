@@ -109,7 +109,7 @@ public class ChatroomActivity extends AppCompatActivity {
         {
             storedMessages.add(m);
         }
-        Log.d("test", "This is a test");
+        /*Log.d("test", "This is a test");
         if(true){
             //Inits the request queue
             RequestQueue queue = Volley.newRequestQueue(this);
@@ -136,7 +136,7 @@ public class ChatroomActivity extends AppCompatActivity {
                 }
             });
             queue.add(stringRequest);
-        }
+        }*/
         final ArrayAdapter<Message> arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
