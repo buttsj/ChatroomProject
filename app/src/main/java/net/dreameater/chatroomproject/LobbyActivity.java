@@ -1,10 +1,12 @@
 package net.dreameater.chatroomproject;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -35,11 +37,14 @@ public class LobbyActivity extends AppCompatActivity {
     public LocationManager locationManager;
     public double longitude;
     public double latitude;
+    WifiManager wifi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
+        wifi = (WifiManager)getSystemService(Context.WIFI_SERVICE);
+
 
         // store the top bar here
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -123,6 +128,10 @@ public class LobbyActivity extends AppCompatActivity {
         {
             Snackbar.make(findViewById(R.id.listView), "Please enable your GPS.", Snackbar.LENGTH_INDEFINITE).show();
         }
+        if (!wifi.isWifiEnabled())
+        {
+            startActivity(new Intent(LobbyActivity.this, MainScreen.class));
+        }
         super.onResume();
         Log.d("TAG", "onResume");
     }
@@ -145,6 +154,10 @@ public class LobbyActivity extends AppCompatActivity {
                 startActivity(new Intent(LobbyActivity.this, AccountActivity.class));
                 return true;
             case R.id.action_refresh:
+                if (!wifi.isWifiEnabled())
+                {
+                    startActivity(new Intent(LobbyActivity.this, MainScreen.class));
+                }
                 checkRooms(lastLocation);
                 return true;
         }

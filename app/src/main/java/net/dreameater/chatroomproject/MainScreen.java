@@ -16,6 +16,7 @@ public class MainScreen extends AppCompatActivity {
 
     boolean connect;
     WifiManager wifi;
+    Snackbar wifiMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +24,10 @@ public class MainScreen extends AppCompatActivity {
         setContentView(R.layout.activity_main_screen);
         connect = false;
 
+        wifiMessage = Snackbar.make(findViewById(R.id.button), "Please enable your WiFi.", Snackbar.LENGTH_INDEFINITE);
         wifi = (WifiManager)getSystemService(Context.WIFI_SERVICE);
         if (!wifi.isWifiEnabled()){
-            Snackbar.make(findViewById(R.id.button), "Please enable your GPS.", Snackbar.LENGTH_INDEFINITE).show();
+            wifiMessage.show();
         }
         else
         {
@@ -48,11 +50,26 @@ public class MainScreen extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        if (!wifi.isWifiEnabled())
+        {
+            connect = false;
+            wifiMessage.show();
+        }
+        else
+        {
+            connect = true;
+            wifiMessage.dismiss();
+        }
+        super.onResume();
+    }
+
     private void Connect()
     {
         if (!wifi.isWifiEnabled()){
             connect = false;
-            Snackbar.make(findViewById(R.id.button), "Please enable your GPS.", Snackbar.LENGTH_INDEFINITE).show();
+            wifiMessage.show();
         }
         else
         {
