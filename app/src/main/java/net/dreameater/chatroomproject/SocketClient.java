@@ -2,6 +2,7 @@ package net.dreameater.chatroomproject;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -24,18 +25,23 @@ public class SocketClient extends Activity {
 
     private Socket socket;
     private static final int SERVERPORT = 7500;
-    private static final String SERVER_IP = "wicker.ddns.net";
+    private static final String SERVER_IP = "164.107.21.140";
 
+    private boolean established = false;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chatroom);
+        setContentView(R.layout.main);
 
         new Thread(new ClientThread()).start();
+
+        while (!established) {
+            established = true;
+        }
     }
 
-    /*public void onClick(View view){
+    public void onClick(View view){
         try{
             EditText txt = (EditText) findViewById(R.id.chat_box);
             String str = txt.getText().toString();
@@ -50,7 +56,7 @@ public class SocketClient extends Activity {
         }catch(Exception e){
             e.printStackTrace();
         }
-    }*/
+    }
 
     class ClientThread implements Runnable{
 
@@ -59,12 +65,12 @@ public class SocketClient extends Activity {
             try{
                 InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
                 socket = new Socket(serverAddr, SERVERPORT);
+                established = true;
             }catch(UnknownHostException e1){
                 e1.printStackTrace();
             }catch(IOException e1){
                 e1.printStackTrace();
             }
-
         }
     }
 }

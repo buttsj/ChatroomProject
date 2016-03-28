@@ -21,7 +21,6 @@ import android.widget.ListView;
 
 import net.dreameater.chatroomproject.classes.CustomAdapter;
 import net.dreameater.chatroomproject.classes.Room;
-import net.dreameater.chatroomproject.wifidirect.WiFiDirectActivity;
 
 import java.util.ArrayList;
 
@@ -151,7 +150,8 @@ public class LobbyActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_settings:
-                startActivity(new Intent(LobbyActivity.this, AccountActivity.class));
+                //startActivity(new Intent(LobbyActivity.this, AccountActivity.class));
+                startActivity(new Intent(LobbyActivity.this, SocketServer.class));
                 return true;
             case R.id.action_refresh:
                 if (!wifi.isWifiEnabled())

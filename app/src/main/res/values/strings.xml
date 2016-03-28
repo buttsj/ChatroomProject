@@ -19,4 +19,5 @@
     <string name="label_me">ME</string>
     <string name="label_peers">PEERS</string>
     <string name="title_activity_socket_client">SocketClient</string>
+    <string name="title_activity_socket_server">SocketServer</string>
 </resources>
