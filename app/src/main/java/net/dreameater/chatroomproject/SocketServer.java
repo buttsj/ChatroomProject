@@ -111,7 +111,7 @@ public class SocketServer extends Activity {
         @Override
         public void run() {
             OutputStream outputStream;
-            String msgReply = "Hello from Android, you are #" + cnt;
+            String msgReply = "Hello from Patrick's phone";
 
             try {
                 outputStream = hostThreadSocket.getOutputStream();
