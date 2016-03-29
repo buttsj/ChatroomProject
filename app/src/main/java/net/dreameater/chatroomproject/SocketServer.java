@@ -10,32 +10,78 @@ import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.Calendar;
 import java.util.Enumeration;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
-public class SocketServer extends Activity {
+import net.dreameater.chatroomproject.classes.Message;
+
+public class SocketServer extends AppCompatActivity {
 
     TextView info, infoip, msg;
     String message = "";
     ServerSocket serverSocket;
+    String msgReply ="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_socket_server);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
+
+        final EditText txt = (EditText) findViewById(R.id.chat_box2);
+
+
+        Thread socketServerThread = new Thread(new SocketServerThread());
+        socketServerThread.start();
+
         //info = (TextView) findViewById(R.id.info);
         //infoip = (TextView) findViewById(R.id.infoip);
         //msg = (TextView) findViewById(R.id.msg);
 
         //infoip.setText(getIpAddress());
 
-        Thread socketServerThread = new Thread(new SocketServerThread());
-        socketServerThread.start();
+        txt.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER) && !(txt.getText().toString().equals(""))) {
+                    msgReply = txt.getText().toString();
+                    txt.getText().clear();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
     }
 
     @Override
@@ -111,7 +157,7 @@ public class SocketServer extends Activity {
         @Override
         public void run() {
             OutputStream outputStream;
-            String msgReply = "Hello from Patrick's phone";
+            //msgReply = "Hello from Patrick's phone";
 
             try {
                 outputStream = hostThreadSocket.getOutputStream();
