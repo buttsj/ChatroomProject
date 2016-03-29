@@ -46,11 +46,6 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".SocketClient"
-            android:label="@string/title_activity_socket_client"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
             android:name=".SocketServer"
             android:label="@string/title_activity_socket_server"
             android:theme="@style/AppTheme.NoActionBar">

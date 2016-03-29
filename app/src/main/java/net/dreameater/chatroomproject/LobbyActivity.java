@@ -85,9 +85,7 @@ public class LobbyActivity extends AppCompatActivity {
                                     long id) {
                 Room selectedRoom = (Room) parent.getItemAtPosition(position);
                 if (selectedRoom.isWithinRange()) {
-                    //Intent i = new Intent(LobbyActivity.this, ChatroomActivity.class);
-                    //TODO put into chatroom activity
-                    Intent i = new Intent(LobbyActivity.this, SocketClient.class);
+                    Intent i = new Intent(LobbyActivity.this, ChatroomActivity.class);
                     i.putExtra("Room", selectedRoom);
                     startActivity(i);
                 }
