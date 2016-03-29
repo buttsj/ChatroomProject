@@ -148,8 +148,7 @@ public class LobbyActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_settings:
-                //startActivity(new Intent(LobbyActivity.this, AccountActivity.class));
-                startActivity(new Intent(LobbyActivity.this, SocketServer.class));
+                startActivity(new Intent(LobbyActivity.this, AccountActivity.class));
                 return true;
             case R.id.action_refresh:
                 if (!wifi.isWifiEnabled())
@@ -157,6 +156,9 @@ public class LobbyActivity extends AppCompatActivity {
                     startActivity(new Intent(LobbyActivity.this, MainScreen.class));
                 }
                 checkRooms(lastLocation);
+                return true;
+            case R.id.server_start:
+                startActivity(new Intent(LobbyActivity.this, SocketServer.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);

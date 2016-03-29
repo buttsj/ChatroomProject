@@ -30,7 +30,6 @@ import net.dreameater.chatroomproject.classes.Message;
 
 public class SocketServer extends AppCompatActivity {
 
-    TextView info, infoip, msg;
     String message = "";
     ServerSocket serverSocket;
     String msgReply ="";
