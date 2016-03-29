@@ -42,7 +42,7 @@ public class SocketServer extends AppCompatActivity {
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle("Server Socket");
 
         final EditText txt = (EditText) findViewById(R.id.chat_box2);
 
