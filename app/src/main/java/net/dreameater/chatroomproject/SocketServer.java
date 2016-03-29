@@ -3,123 +3,177 @@ package net.dreameater.chatroomproject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
+import java.util.Enumeration;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.TextView;
 
 public class SocketServer extends Activity {
 
-    private ServerSocket serverSocket;
-
-    Handler updateConversationHandler;
-
-    Thread serverThread = null;
-
-    private TextView text;
-
-    public static final int SERVERPORT = 7500;
+    TextView info, infoip, msg;
+    String message = "";
+    ServerSocket serverSocket;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_socket_server);
+        //info = (TextView) findViewById(R.id.info);
+        //infoip = (TextView) findViewById(R.id.infoip);
+        //msg = (TextView) findViewById(R.id.msg);
 
-        text = (TextView) findViewById(R.id.text2);
+        //infoip.setText(getIpAddress());
 
-        updateConversationHandler = new Handler();
-
-        this.serverThread = new Thread(new ServerThread());
-        this.serverThread.start();
-
+        Thread socketServerThread = new Thread(new SocketServerThread());
+        socketServerThread.start();
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        try {
-            serverSocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    protected void onDestroy() {
+        super.onDestroy();
 
-    class ServerThread implements Runnable {
-
-        public void run() {
-            Socket socket = null;
+        if (serverSocket != null) {
             try {
-                serverSocket = new ServerSocket(SERVERPORT);
+                serverSocket.close();
             } catch (IOException e) {
-                e.printStackTrace();
-            }
-            while (!Thread.currentThread().isInterrupted()) {
-
-                try {
-
-                    socket = serverSocket.accept();
-
-                    CommunicationThread commThread = new CommunicationThread(socket);
-                    new Thread(commThread).start();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    class CommunicationThread implements Runnable {
-
-        private Socket clientSocket;
-
-        private BufferedReader input;
-
-        public CommunicationThread(Socket clientSocket) {
-
-            this.clientSocket = clientSocket;
-
-            try {
-
-                this.input = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
-
-            } catch (IOException e) {
+                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
+    }
 
+    private class SocketServerThread extends Thread {
+
+        static final int SocketServerPORT = 7500;
+        int count = 0;
+
+        @Override
         public void run() {
+            try {
+                serverSocket = new ServerSocket(SocketServerPORT);
+                SocketServer.this.runOnUiThread(new Runnable() {
 
-            while (!Thread.currentThread().isInterrupted()) {
+                    @Override
+                    public void run() {
+                        //info.setText("I'm waiting here: "
+                                //+ serverSocket.getLocalPort());
+                    }
+                });
+                Log.d("TAG", "Waiting on client");
+                while (true) {
+                    Socket socket = serverSocket.accept();
+                    Log.d("TAG", "Connected to client");
+                    count++;
+                    message += "#" + count + " from " + socket.getInetAddress()
+                            + ":" + socket.getPort() + "\n";
+                    Log.d("TEST", message);
+                    SocketServer.this.runOnUiThread(new Runnable() {
 
-                try {
+                        @Override
+                        public void run() {
+                            //msg.setText(message);
+                        }
+                    });
 
-                    String read = input.readLine();
+                    SocketServerReplyThread socketServerReplyThread = new SocketServerReplyThread(
+                            socket, count);
+                    socketServerReplyThread.run();
 
-                    updateConversationHandler.post(new updateUIThread(read));
-
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
         }
 
     }
 
-    class updateUIThread implements Runnable {
-        private String msg;
+    private class SocketServerReplyThread extends Thread {
 
-        public updateUIThread(String str) {
-            this.msg = str;
+        private Socket hostThreadSocket;
+        int cnt;
+
+        SocketServerReplyThread(Socket socket, int c) {
+            hostThreadSocket = socket;
+            cnt = c;
         }
 
         @Override
         public void run() {
-            text.setText(text.getText().toString()+"Client Says: "+ msg + "\n");
+            OutputStream outputStream;
+            String msgReply = "Hello from Android, you are #" + cnt;
+
+            try {
+                outputStream = hostThreadSocket.getOutputStream();
+                PrintStream printStream = new PrintStream(outputStream);
+                printStream.print(msgReply);
+                printStream.close();
+
+                message += "replayed: " + msgReply + "\n";
+
+                SocketServer.this.runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        //msg.setText(message);
+                    }
+                });
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                message += "Something wrong! " + e.toString() + "\n";
+            }
+
+            SocketServer.this.runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    //msg.setText(message);
+                }
+            });
         }
+
+    }
+
+    private String getIpAddress() {
+        String ip = "";
+        try {
+            Enumeration<NetworkInterface> enumNetworkInterfaces = NetworkInterface
+                    .getNetworkInterfaces();
+            while (enumNetworkInterfaces.hasMoreElements()) {
+                NetworkInterface networkInterface = enumNetworkInterfaces
+                        .nextElement();
+                Enumeration<InetAddress> enumInetAddress = networkInterface
+                        .getInetAddresses();
+                while (enumInetAddress.hasMoreElements()) {
+                    InetAddress inetAddress = enumInetAddress.nextElement();
+
+                    if (inetAddress.isSiteLocalAddress()) {
+                        ip += "SiteLocalAddress: "
+                                + inetAddress.getHostAddress() + "\n";
+                    }
+
+                }
+
+            }
+
+        } catch (SocketException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            ip += "Something Wrong! " + e.toString() + "\n";
+        }
+
+        return ip;
     }
 }
