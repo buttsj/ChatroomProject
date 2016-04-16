@@ -1,17 +1,14 @@
 package net.dreameater.chatroomproject.classes;
 
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class RoomRepo {
     private DBHelper dbHelper;
-    private SQLiteDatabase db;
 
     public RoomRepo(Context context)
     {
@@ -19,7 +16,7 @@ public class RoomRepo {
     }
 
     public int insert(Room room) {
-        db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Room.KEY_name, room.roomName);
         values.put(Room.KEY_lat, room.latitude);
@@ -30,15 +27,20 @@ public class RoomRepo {
         return (int) room_Id;
     }
 
+    public void clearDatabase(Context context)
+    {
+        context.deleteDatabase(dbHelper.getDatabaseName());
+    }
+
     public void delete(int room_Id) {
-        db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.delete(Room.TABLE, Room.KEY_ID + "= ?", new String[] { String.valueOf(room_Id) });
         db.close();
     }
 
     public void update(Room room)
     {
-        db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(Room.KEY_name, room.roomName);
@@ -52,7 +54,7 @@ public class RoomRepo {
 
     public ArrayList<Room> getRoomList() {
         //Open connection to read only
-        db = dbHelper.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         String selectQuery =  "SELECT  " +
                 Room.KEY_ID + "," +
                 Room.KEY_name + "," +
@@ -86,7 +88,7 @@ public class RoomRepo {
     }
 
     public Room getRoomById(int Id){
-        db = dbHelper.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         String selectQuery =  "SELECT  " +
                 Room.KEY_ID + "," +
                 Room.KEY_name + "," +
