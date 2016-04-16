@@ -18,7 +18,7 @@ public class Room implements Serializable {
 
     public int room_ID;
 
-    public Room(String name, double latitude, double longitude) {
+    public Room(String name, double latitude, double longitude, int id) {
         super();
         this.roomName = name;
         this.imgName = "red";
@@ -26,6 +26,7 @@ public class Room implements Serializable {
         this.chatTool = new Chat();
         this.longitude = longitude;
         this.latitude = latitude;
+        this.room_ID = id;
     }
 
     @Override

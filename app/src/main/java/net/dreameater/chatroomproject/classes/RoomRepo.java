@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 public class RoomRepo {
     private DBHelper dbHelper;
+    private SQLiteDatabase db;
 
     public RoomRepo(Context context)
     {
@@ -18,7 +19,7 @@ public class RoomRepo {
     }
 
     public int insert(Room room) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Room.KEY_name, room.roomName);
         values.put(Room.KEY_lat, room.latitude);
@@ -30,14 +31,14 @@ public class RoomRepo {
     }
 
     public void delete(int room_Id) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db = dbHelper.getWritableDatabase();
         db.delete(Room.TABLE, Room.KEY_ID + "= ?", new String[] { String.valueOf(room_Id) });
         db.close();
     }
 
     public void update(Room room)
     {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(Room.KEY_name, room.roomName);
@@ -49,9 +50,9 @@ public class RoomRepo {
         db.close();
     }
 
-    public ArrayList<HashMap<String, String>>  getStudentList() {
+    public ArrayList<Room> getRoomList() {
         //Open connection to read only
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        db = dbHelper.getReadableDatabase();
         String selectQuery =  "SELECT  " +
                 Room.KEY_ID + "," +
                 Room.KEY_name + "," +
@@ -60,16 +61,19 @@ public class RoomRepo {
                 " FROM " + Room.TABLE;
 
         //Student student = new Student();
-        ArrayList<HashMap<String, String>> roomList = new ArrayList<HashMap<String, String>>();
+        ArrayList<Room> roomList = new ArrayList<Room>();
 
         Cursor cursor = db.rawQuery(selectQuery, null);
         // looping through all rows and adding to list
 
         if (cursor.moveToFirst()) {
             do {
-                HashMap<String, String> room = new HashMap<String, String>();
-                room.put("id", cursor.getString(cursor.getColumnIndex(Room.KEY_ID)));
-                room.put("name", cursor.getString(cursor.getColumnIndex(Room.KEY_name)));
+                int id = cursor.getInt(cursor.getColumnIndex(Room.KEY_ID));
+                String name = cursor.getString(cursor.getColumnIndex(Room.KEY_name));
+                double lati = cursor.getDouble(cursor.getColumnIndex(Room.KEY_lat));
+                double longi = cursor.getDouble(cursor.getColumnIndex(Room.KEY_long));
+
+                Room room = new Room(name, lati, longi, id);
                 roomList.add(room);
 
             } while (cursor.moveToNext());
@@ -82,7 +86,7 @@ public class RoomRepo {
     }
 
     public Room getRoomById(int Id){
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        db = dbHelper.getReadableDatabase();
         String selectQuery =  "SELECT  " +
                 Room.KEY_ID + "," +
                 Room.KEY_name + "," +
@@ -108,8 +112,7 @@ public class RoomRepo {
 
             } while (cursor.moveToNext());
         }
-        Room room = new Room(name, latitude, longitude);
-        room.room_ID = id;
+        Room room = new Room(name, latitude, longitude, id);
         cursor.close();
         db.close();
         return room;
