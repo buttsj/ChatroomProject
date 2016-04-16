@@ -110,7 +110,7 @@ public class LobbyActivity extends AppCompatActivity {
         }
         else
         {
-            Snackbar.make(findViewById(R.id.listView), "Please enable your GPS.", Snackbar.LENGTH_INDEFINITE).show();
+            startActivity(new Intent(LobbyActivity.this, MainScreen.class));
         }
     }
 
@@ -123,7 +123,7 @@ public class LobbyActivity extends AppCompatActivity {
         }
         else
         {
-            Snackbar.make(findViewById(R.id.listView), "Please enable your GPS.", Snackbar.LENGTH_INDEFINITE).show();
+            startActivity(new Intent(LobbyActivity.this, MainScreen.class));
         }
         if (!wifi.isWifiEnabled())
         {
@@ -155,7 +155,14 @@ public class LobbyActivity extends AppCompatActivity {
                 {
                     startActivity(new Intent(LobbyActivity.this, MainScreen.class));
                 }
-                checkRooms(lastLocation);
+                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+                {
+                    checkRooms(lastLocation);
+                }
+                else
+                {
+                    startActivity(new Intent(LobbyActivity.this, MainScreen.class));
+                }
                 return true;
             case R.id.server_start:
                 startActivity(new Intent(LobbyActivity.this, SocketServer.class));

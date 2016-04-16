@@ -38,7 +38,8 @@ public class ChatroomActivity extends AppCompatActivity {
     private ListView lv; // The listview holding the List below
     private List<Message> storedMessages; // List of messages ("history")
     private static final int SERVERPORT = 7500;
-    private static final String SERVER_IP = "192.168.0.117";
+    private static final String SERVER_IP = "164.107.15.230";
+    //private static final String SERVER_IP = "192.168.0.117";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
