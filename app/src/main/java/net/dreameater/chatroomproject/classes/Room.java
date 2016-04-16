@@ -4,12 +4,19 @@ import java.io.Serializable;
 
 public class Room implements Serializable {
 
-    private String roomName;
+    public String roomName;
     private String imgName;
     private boolean favorite;
     public Chat chatTool;
-    private double longitude;
-    private double latitude;
+    public double longitude;
+    public double latitude;
+    public static final String TABLE = "Rooms";
+    public static final String KEY_ID = "id";
+    public static final String KEY_name = "roomName";
+    public static final String KEY_long = "longitude";
+    public static final String KEY_lat = "latitude";
+
+    public int room_ID;
 
     public Room(String name, double latitude, double longitude) {
         super();
