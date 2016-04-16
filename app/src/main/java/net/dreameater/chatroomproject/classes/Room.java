@@ -7,7 +7,7 @@ public class Room implements Serializable {
     private String roomName;
     private String imgName;
     private boolean favorite;
-    private Chat chatTool;
+    public Chat chatTool;
     private double longitude;
     private double latitude;
 

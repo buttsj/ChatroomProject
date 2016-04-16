@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Chat implements Serializable {
 
-    private List<Message> history;
+    public List<Message> history;
 
     public Chat() {
         super();

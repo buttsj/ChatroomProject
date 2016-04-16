@@ -116,6 +116,10 @@ public class LobbyActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        for(int i =0; i<roomList.size(); i++){
+            Room room = roomList.get(i);
+            room.chatTool.history.clear();
+        }
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
         {
@@ -130,6 +134,7 @@ public class LobbyActivity extends AppCompatActivity {
             startActivity(new Intent(LobbyActivity.this, MainScreen.class));
         }
         super.onResume();
+
         Log.d("TAG", "onResume");
     }
 
