@@ -180,9 +180,6 @@ public class LobbyActivity extends AppCompatActivity {
                     startActivity(new Intent(LobbyActivity.this, MainScreen.class));
                 }
                 return true;
-            case R.id.server_start:
-                startActivity(new Intent(LobbyActivity.this, SocketServer.class));
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }

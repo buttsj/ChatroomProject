@@ -1,17 +1,16 @@
 package net.dreameater.chatroomproject;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -29,13 +28,7 @@ import net.dreameater.chatroomproject.classes.CustomAdapter2;
 import net.dreameater.chatroomproject.classes.Message;
 import net.dreameater.chatroomproject.classes.Room;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class ChatroomActivity extends AppCompatActivity {
@@ -44,12 +37,8 @@ public class ChatroomActivity extends AppCompatActivity {
     private ListView lv; // The listview holding the List below
     private List<Message> storedMessages; // List of messages ("history")
     private EditText txt;
-    private static final int SERVERPORT = 7500;
-    private static final String SERVER_IP = "164.107.15.230";
     boolean firstLoad;
     public CustomAdapter2 arrayAdapter;
-    public Button btnSend;
-    //private static final String SERVER_IP = "192.168.0.117";
 
     static final int POLL_INTERVAL = 100;
     Handler handler = new Handler();
@@ -86,7 +75,7 @@ public class ChatroomActivity extends AppCompatActivity {
                 .addNetworkInterceptor(new ParseLogInterceptor())
                 .server("http://ohiostateroom.herokuapp.com/parse/").build());
         ParseUser.enableAutomaticUser();
-        // https://myparseapp.herokuapp.com/parse/
+
         if (ParseUser.getCurrentUser() != null) {
             startWithCurrentUser();
         }
@@ -127,68 +116,6 @@ public class ChatroomActivity extends AppCompatActivity {
         lv.setAdapter(arrayAdapter);
     }
 
-    public class MyClientTask extends AsyncTask<Void, Void, Void> {
-
-        String dstAddress;
-        int dstPort;
-        String response = "";
-
-        MyClientTask(String addr, int port){
-            dstAddress = addr;
-            dstPort = port;
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            Socket socket = null;
-            try {
-                socket = new Socket(dstAddress, dstPort);
-                ByteArrayOutputStream byteArrayOutputStream =
-                        new ByteArrayOutputStream(1024);
-                byte[] buffer = new byte[1024];
-
-                int bytesRead;
-                InputStream inputStream = socket.getInputStream();
-
-    /*
-     * notice:
-     * inputStream.read() will block if no data return
-     */
-                while ((bytesRead = inputStream.read(buffer)) != -1){
-                    byteArrayOutputStream.write(buffer, 0, bytesRead);
-                    response += byteArrayOutputStream.toString("UTF-8");
-                }
-
-            } catch (UnknownHostException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                response = "UnknownHostException: " + e.toString();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                response = "IOException: " + e.toString();
-            }finally{
-                if(socket != null){
-                    try {
-                        socket.close();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            }
-            return null;
-        }
-
-        /*@Override
-        protected void onPostExecute(Void result) {
-            Message msg = new Message(response, Calendar.getInstance().getTimeInMillis());
-            selectedRoom.sendMessage(msg);
-            updateChatLog();
-            super.onPostExecute(result);
-        }*/
-    }
-
     void startWithCurrentUser() {
         setupMessagePosting();
     }
@@ -197,36 +124,32 @@ public class ChatroomActivity extends AppCompatActivity {
         // Find the text field and button
         txt = (EditText) findViewById(R.id.chat_box);
         lv = (ListView) findViewById(R.id.listView2);
-        btnSend = (Button) findViewById(R.id.btnSend);
         storedMessages = new ArrayList<>();
         // Automatically scroll to the bottom when a data set change notification is received and only if the last item is already visible on screen. Don't scroll to the bottom otherwise.
         lv.setTranscriptMode(1);
         firstLoad = true;
         final String userId = ParseUser.getCurrentUser().getObjectId();
         arrayAdapter = new CustomAdapter2(ChatroomActivity.this, "Anon", storedMessages);
-        //arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, storedMessages );
         lv.setAdapter(arrayAdapter);
 
-        // When send button is clicked, create message object on Parse
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //Message msg = new Message(txt.getText().toString(), Calendar.getInstance().getTimeInMillis());
-                ParseObject parseMessage = ParseObject.create(Message.class);
-                parseMessage.put(Message.USER_ID_KEY, "ANON");
-                parseMessage.put(Message.BODY_KEY, txt.getText().toString());
-                parseMessage.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(com.parse.ParseException e) {
-                        // message done
-                        refreshMessages();
-                        Log.d("TAG", "Message refreshed!");
-                    }
-                });
-                //selectedRoom.sendMessage(msg);
-                txt.setText(null);
-                //updateChatLog();
+        txt.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER) && !(txt.getText().toString().equals(""))) {
+                    ParseObject parseMessage = ParseObject.create(Message.class);
+                    parseMessage.put(Message.USER_ID_KEY, "ANON");
+                    parseMessage.put(Message.BODY_KEY, txt.getText().toString());
+                    parseMessage.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(com.parse.ParseException e) {
+                            // message done
+                            refreshMessages();
+                            Log.d("TAG", "Message refreshed!");
+                        }
+                    });
+                    txt.setText(null);
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -248,11 +171,8 @@ public class ChatroomActivity extends AppCompatActivity {
                         lv.setSelection(arrayAdapter.getCount() -1 );
                         firstLoad = false;
                     }
-                    // clear ListView
-                    // add "messages" back
-                    // mAdapter.notifyDataSetChanged();
                 } else {
-                    // messages failed to load
+                    // message failed
                 }
             }
         });

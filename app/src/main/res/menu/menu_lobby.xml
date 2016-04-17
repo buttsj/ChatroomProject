@@ -14,11 +14,4 @@
         android:icon="@drawable/ic_person_black_24dp"
         android:title="@string/action_settings"
         app:showAsAction="always"/>
-
-    <item
-        android:id="@+id/server_start"
-        android:orderInCategory="100"
-        android:icon="@drawable/ic_action_on_off"
-        android:title="Server"
-        app:showAsAction="always"/>
 </menu>
