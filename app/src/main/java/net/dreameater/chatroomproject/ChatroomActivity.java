@@ -18,6 +18,7 @@ import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -86,6 +87,7 @@ public class ChatroomActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case android.R.id.home:
+                clearMessages();
                 finish();
                 return true;
         }
@@ -94,22 +96,6 @@ public class ChatroomActivity extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
-    }
-
-    public void updateChatLog() {
-        lv = (ListView) findViewById(R.id.listView2);
-        storedMessages = new ArrayList<>();
-        for (Message m : selectedRoom.currentChat().retreiveHistory())
-        {
-            storedMessages.add(m);
-        }
-
-        final ArrayAdapter<Message> arrayAdapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_1,
-                storedMessages);
-
-        lv.setAdapter(arrayAdapter);
     }
 
     void startWithCurrentUser() {
@@ -149,6 +135,21 @@ public class ChatroomActivity extends AppCompatActivity {
             }
         });
     }
+
+    void clearMessages() {
+        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
+        query.findInBackground(new FindCallback<Message>() {
+            @Override
+            public void done(List<Message> objects, ParseException e) {
+                for (int i = 0; i < objects.size(); i++)
+                {
+                    objects.get(i).deleteInBackground();
+                }
+                storedMessages.clear();
+            }
+        });
+    }
+
 
     void refreshMessages() {
         ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
