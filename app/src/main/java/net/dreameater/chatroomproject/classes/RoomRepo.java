@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class RoomRepo {
@@ -25,6 +26,11 @@ public class RoomRepo {
         long room_Id = db.insert(Room.TABLE, null, values);
         db.close();
         return (int) room_Id;
+    }
+
+    public boolean checkIfExists(Context context) {
+        File database = context.getDatabasePath(dbHelper.getDatabaseName());
+        return database.exists();
     }
 
     public void clearDatabase(Context context)
@@ -63,7 +69,7 @@ public class RoomRepo {
                 " FROM " + Room.TABLE;
 
         //Student student = new Student();
-        ArrayList<Room> roomList = new ArrayList<Room>();
+        ArrayList<Room> roomList = new ArrayList<>();
 
         Cursor cursor = db.rawQuery(selectQuery, null);
         // looping through all rows and adding to list

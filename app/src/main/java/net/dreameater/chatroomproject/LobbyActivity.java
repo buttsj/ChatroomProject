@@ -48,7 +48,12 @@ public class LobbyActivity extends AppCompatActivity {
         wifi = (WifiManager)getSystemService(Context.WIFI_SERVICE);
 
         repo = new RoomRepo(this);
-        repo.clearDatabase(this);
+        if (repo.checkIfExists(this))
+        {
+            Log.d("TAG", "Database is loaded properly");
+        } else
+        {
+            Log.d("TAG", "New database, load rooms.");
             repo.insert(new Room("Dreese Labs", 40.002446, -83.015817, 0));
             repo.insert(new Room("Caldwell", 40.002238, -83.015035, 1));
             repo.insert(new Room("Bolz", 39.999063, -83.017339, 2));
@@ -64,7 +69,7 @@ public class LobbyActivity extends AppCompatActivity {
             repo.insert(new Room("Scott Laboratory", 40.002239, -83.014110, 12));
             repo.insert(new Room("Evans Laboratory", 40.002779, -83.011099, 13));
             repo.insert(new Room("Celeste Laboratory", 40.002164, -83.011224, 14));
-
+        }
 
         // store the top bar here
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -77,25 +82,7 @@ public class LobbyActivity extends AppCompatActivity {
         // create the list of Rooms (name of room, latitude, longitude)
         roomList = repo.getRoomList();
 
-        /*roomList = new ArrayList<>();
-        roomList.add(new Room("Dreese Labs", 40.002446, -83.015817, 0));
-        roomList.add(new Room("Caldwell", 40.002238, -83.015035, 1));
-        roomList.add(new Room("Bolz", 39.999063, -83.017339, 2));
-        roomList.add(new Room("Baker Systems", 40.001591, -83.015910, 3));
-        roomList.add(new Room("Hitchcock", 40.003864, -83.015003, 4));
-        roomList.add(new Room("Eighteenth Avenue Library", 40.001654, -83.013330, 5));
-        roomList.add(new Room("RPAC", 40.001036, -83.012976, 6));
-        roomList.add(new Room("University Hall", 40.000728, -83.013515, 7));
-        roomList.add(new Room("Thompson Library", 39.999063, -83.017339, 8));
-        roomList.add(new Room("Knowlton Hall", 40.004068, -83.017095, 9));
-        roomList.add(new Room("Fisher Hall", 40.005166, -83.016008, 10));
-        roomList.add(new Room("Cockins Hall", 40.001246, -83.015011, 11));
-        roomList.add(new Room("Scott Laboratory", 40.002239, -83.014110, 12));
-        roomList.add(new Room("Evans Laboratory", 40.002779, -83.011099, 13));
-        roomList.add(new Room("Celeste Laboratory", 40.002164, -83.011224, 14));*/
-
         // create custom adapter (to put Green/Red dot and text on same line
-        //ad = new CustomAdapter(this, roomList);
         ad = new CustomAdapter(this, roomList);
 
         // apply custom adapter to the ListView
