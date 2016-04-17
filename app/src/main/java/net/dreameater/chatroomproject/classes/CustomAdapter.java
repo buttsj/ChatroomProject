@@ -17,8 +17,7 @@ public class CustomAdapter extends BaseAdapter {
     private Activity context_1;
     private ArrayList<Room> pairs;
 
-    public CustomAdapter(Activity context,
-                             ArrayList<Room> pairs) {
+    public CustomAdapter(Activity context, ArrayList<Room> pairs) {
         context_1 = context;
         this.pairs = pairs;
     }
