@@ -1,21 +1,16 @@
 package net.dreameater.chatroomproject.classes;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.dreameater.chatroomproject.R;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CustomAdapter2 extends ArrayAdapter<Message> {
