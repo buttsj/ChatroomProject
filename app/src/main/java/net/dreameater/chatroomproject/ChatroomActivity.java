@@ -70,10 +70,6 @@ public class ChatroomActivity extends AppCompatActivity {
 
         ParseObject.registerSubclass(Message.class);
         // UPDATE WITH PARSE ACCOUNT INFO
-        Parse.initialize(new Parse.Configuration.Builder(this)
-                .applicationId("myAppId") // should correspond to APP_ID env variable
-                .addNetworkInterceptor(new ParseLogInterceptor())
-                .server("http://ohiostateroom.herokuapp.com/parse/").build());
         ParseUser.enableAutomaticUser();
 
         if (ParseUser.getCurrentUser() != null) {

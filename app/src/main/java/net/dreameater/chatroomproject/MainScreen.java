@@ -13,6 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
+import com.parse.Parse;
+import com.parse.interceptors.ParseLogInterceptor;
+
 // THIS IS THE SPLASH SCREEN
 
 public class MainScreen extends AppCompatActivity {
@@ -24,10 +27,16 @@ public class MainScreen extends AppCompatActivity {
     Snackbar gpsMessage;
     Snackbar comboMessage;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
+        Parse.initialize(new Parse.Configuration.Builder(this)
+                .applicationId("myAppId") // should correspond to APP_ID env variable
+                .addNetworkInterceptor(new ParseLogInterceptor())
+                .server("http://ohiostateroom.herokuapp.com/parse/").build());
+
         connect = false;
         wifiMessage = Snackbar.make(findViewById(R.id.button), "Please enable your WiFi.", Snackbar.LENGTH_INDEFINITE);
         comboMessage = Snackbar.make(findViewById(R.id.button), "Enable WiFi and GPS!", Snackbar.LENGTH_INDEFINITE);
